@@ -18,26 +18,11 @@ process.on('unhandledRejection', (reason, promise) => {
     console.log('Unhandled rejection: ', promise, 'reason:', reason);
 });
 
-async function isMusl() {
-    let stderr;
-    try {
-        stderr = (await exec('ldd --version')).stderr;
-    } catch (err) {
-        stderr = err.stderr;
-    }
-    if (stderr.indexOf('musl') > -1) {
-        return true;
-    }
-    return false;
-}
-
 async function getTarget() {
     const arch = process.env.npm_config_arch || os.arch();
 
     switch (os.platform()) {
         case 'darwin':
-            return 'x86_64-apple-darwin';
-            // TODO: Waiting for GitHub actions to build on M1.
             return arch === 'arm64' ? 'aarch64-apple-darwin' :
                 'x86_64-apple-darwin';
         case 'win32':
@@ -48,7 +33,7 @@ async function getTarget() {
             return arch === 'x64' ? 'x86_64-unknown-linux-musl' :
                 arch === 'arm' ? 'arm-unknown-linux-gnueabihf' :
                     arch === 'armv7l' ? 'arm-unknown-linux-gnueabihf' :
-                        arch === 'arm64' ? await isMusl() ? 'aarch64-unknown-linux-musl' : 'aarch64-unknown-linux-gnu' :
+                        arch === 'arm64' ? 'aarch64-unknown-linux-musl' :
                             arch === 'ppc64' ? 'powerpc64le-unknown-linux-gnu' :
                                 arch === 's390x' ? 's390x-unknown-linux-gnu' :
                                     'i686-unknown-linux-musl'
