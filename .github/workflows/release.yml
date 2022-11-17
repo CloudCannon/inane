@@ -238,6 +238,7 @@ jobs:
           rustup show
 
       - name: Install humane
+        if: matrix.run_tests == true
         uses: supplypike/setup-bin@v1
         with:
           uri: "https://github.com/CloudCannon/humane/releases/download/v${{env.HUMANE_VERSION}}/humane-v${{env.HUMANE_VERSION}}-${{matrix.target}}.tar.gz"
