@@ -9,6 +9,8 @@
 
 ## Unreleased
 
+## v1.0.5 (November 17, 2022)
+
 ## v1.0.0 (November 17, 2022)
 
 * Literally nothing of use.
