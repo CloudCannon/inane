@@ -1,0 +1,29 @@
+{
+  "name": "inane",
+  "version": "0.0.0",
+  "description": "Intentionally useless.",
+  "bin": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CloudCannon/inane"
+  },
+  "scripts": {
+    "postinstall": "node ./lib/postinstall.js"
+  },
+  "author": "CloudCannon",
+  "license": "MIT",
+  "dependencies": {
+    "https-proxy-agent": "^5.0.0",
+    "proxy-from-env": "^1.1.0"
+  },
+  "overrides": {
+    "agent-base": "^6.0.2"
+  },
+  "keywords": [
+    "useless"
+  ],
+  "bugs": {
+    "url": "https://github.com/CloudCannon/inane/issues"
+  },
+  "homepage": "https://github.com/CloudCannon/inane#readme"
+}

@@ -1,0 +1,20 @@
+[package]
+name = "inane"
+version = "0.0.0"
+edition = "2021"
+include = ["/src", "/features", "/tests"]
+description = "Intentionally useless."
+license = "MIT"
+
+[dependencies]
+console = "0.15.1"
+lazy_static = "1.4.0"
+anyhow = "1.0"
+clap = { version = "3.2.6", features = ["derive"] }
+twelf = { version = "0.7", default-features = false, features = [
+    "env",
+    "clap",
+    "json",
+    "yaml",
+    "toml",
+] }
