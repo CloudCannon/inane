@@ -6,6 +6,9 @@ impl InaneState {
     }
 
     pub fn run(&mut self) {
-        println!("There is nothing to do.")
+        println!(
+            "Inane v{}\n\n🤷\n\nThere is nothing to do.",
+            env!("CARGO_PKG_VERSION")
+        )
     }
 }

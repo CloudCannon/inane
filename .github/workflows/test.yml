@@ -51,9 +51,6 @@ jobs:
         with:
           node-version: 16
 
-      - name: Install Chrome
-        uses: browser-actions/setup-chrome@latest
-
       - name: Install humane
         uses: supplypike/setup-bin@v1
         with:

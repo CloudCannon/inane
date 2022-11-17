@@ -43,12 +43,12 @@ while (!(entry = it.next()).done) {
     release.push(line);
 }
 
-if (!release.some((v => v.trim().length))) {
-    err([
-        `No unreleased changes exist in ${changelogFile}.`,
-        `Cancelling release — please write release notes!`
-    ].join('\n'));
-}
+// if (!release.some((v => v.trim().length))) {
+//     err([
+//         `No unreleased changes exist in ${changelogFile}.`,
+//         `Cancelling release — please write release notes!`
+//     ].join('\n'));
+// }
 
 if (process.argv[2] === "write") {
     fs.writeFileSync(releaseFile, release.join('\n'));

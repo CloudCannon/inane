@@ -165,29 +165,31 @@ jobs:
             rust: stable
             target: x86_64-pc-windows-msvc
             cross: false
-            musl: false
             run_tests: true
           - build: linux
             os: ubuntu-latest
             rust: stable
             target: x86_64-unknown-linux-musl
             cross: false
-            musl: true
             run_tests: true
+          - build: linux
+            os: ubuntu-latest
+            rust: beta
+            target: aarch64-unknown-linux-musl
+            cross: false
+            run_tests: false
           - build: macos
             os: macos-latest
             rust: stable
             target: x86_64-apple-darwin
             cross: false
-            musl: false
             run_tests: true
-          # - build: macos-m1
-          #   os: macos-latest
-          #   rust: stable
-          #   target: aarch64-apple-darwin
-          #   cross: false
-          #   musl: false
-          #   run_tests: false
+          - build: macos-m1
+            os: macos-latest
+            rust: stable
+            target: aarch64-apple-darwin
+            cross: false
+            run_tests: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -212,30 +214,31 @@ jobs:
       - name: Get Version
         run: echo GIT_VERSION="$(git describe --tags | sed 's/^v\(.*\)$/\1/')" >> $GITHUB_ENV
 
-      - name: Verify Changelog
-        run: |
-          node ./.backstage/changelog.cjs
+      # - name: Verify Changelog
+      #   run: |
+      #     node ./.backstage/changelog.cjs
 
       - name: Install Linker
         if: matrix.cross
         run: |
           sudo apt update
           sudo apt install ${{ matrix.linker }}
-      - name: Install Musl Tools
-        if: matrix.musl
+      - name: Install Tooling
+        if: matrix.os == 'ubuntu-latest'
         run: |
-          sudo apt update
-          sudo apt install -y musl-tools musl-dev
+          sudo apt update -y
+          sudo apt install -y musl-tools musl-dev clang gcc-aarch64-linux-gnu         
+          echo "TARGET_CC=clang" >> $GITHUB_ENV
+          echo "CFLAGS_aarch64_unknown_linux_musl=--sysroot=/usr/aarch64-linux-gnu" >> $GITHUB_ENV
+          echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=/usr/aarch64-linux-gnu/bin/ld" >> $GITHUB_ENV
       - name: Install Rust
         run: |
           rustup install ${{ matrix.rust }}
           rustup target add ${{ matrix.target }}
           rustup show
 
-      - name: Install Chrome
-        uses: browser-actions/setup-chrome@latest
-
       - name: Install humane
+        if: matrix.run_tests == true
         uses: supplypike/setup-bin@v1
         with:
           uri: "https://github.com/CloudCannon/humane/releases/download/v${{env.HUMANE_VERSION}}/humane-v${{env.HUMANE_VERSION}}-${{matrix.target}}.tar.gz"
@@ -262,10 +265,12 @@ jobs:
         run: cargo build --release --target ${{ matrix.target }}
 
       - name: Test Lib
+        if: matrix.run_tests == true
         working-directory: ./inane
         run: cargo test --release --target ${{ matrix.target }}
 
       - name: Test CLI
+        if: matrix.run_tests == true
         working-directory: ./inane
         run: TEST_BINARY=../target/${{ matrix.target }}/release/inane humane
 
