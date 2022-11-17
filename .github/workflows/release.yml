@@ -264,12 +264,12 @@ jobs:
         run: cargo build --release --target ${{ matrix.target }}
 
       - name: Test Lib
-        if: !matrix.run_tests
+        if: matrix.run_tests == true
         working-directory: ./inane
         run: cargo test --release --target ${{ matrix.target }}
 
       - name: Test CLI
-        if: !matrix.run_tests
+        if: matrix.run_tests == true
         working-directory: ./inane
         run: TEST_BINARY=../target/${{ matrix.target }}/release/inane humane
 
