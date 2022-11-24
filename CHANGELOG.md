@@ -9,6 +9,8 @@
 
 ## Unreleased
 
+## v1.0.11 (November 24, 2022)
+
 ## v1.0.10 (November 24, 2022)
 
 ## v1.0.9 (November 24, 2022)
