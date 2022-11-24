@@ -274,37 +274,19 @@ jobs:
         working-directory: ./inane
         run: TEST_BINARY=../target/${{ matrix.target }}/release/inane humane
 
-      - name: Package Artifacts
+      - name: Create Release Assets
         run: |
-          src=$(pwd)
-          stage=
-          case $RUNNER_OS in
-              Windows)
-                  stage=$(mktemp -d)
-                  ;;
-              Linux)
-                  stage=$(mktemp -d)
-                  ;;
-              macOS)
-                  stage=$(mktemp -d -t tmp)
-                  ;;
-          esac
-          cp target/${{ matrix.target }}/release/inane $stage/
-          cd $stage
-          RELEASE_VERSION=${GITHUB_REF#refs/tags/}
-
           EXEC_NAME="inane"
-          ASSET_NAME="$EXEC_NAME-$RELEASE_VERSION-${{ matrix.target }}.tar.gz"
+          ASSET_NAME="$EXEC_NAME-$GIT_VERSION-${{ matrix.target }}.tar.gz"
           ASSET_PATH="$src/$ASSET_NAME"
-
           CHECKSUM_PATH="$ASSET_PATH.sha256"
 
           if [ "$RUNNER_OS" == "Windows" ]; then
             EXEC_NAME="inane.exe"
           fi
-          tar czf $ASSET_PATH $EXEC_NAME
 
-          cd $src
+          tar czf $ASSET_PATH -C target/${{ matrix.target }}/release $EXEC_NAME
+
           case $RUNNER_OS in
               Windows)
                   sha256sum $ASSET_NAME > $CHECKSUM_PATH
@@ -316,6 +298,7 @@ jobs:
                   shasum -a 256 $ASSET_NAME > $CHECKSUM_PATH
                   ;;
           esac
+
           if [ "$RUNNER_OS" == "Windows" ]; then
               ASSET_PATH=$(echo "$ASSET_PATH" | sed -e 's/^\///' -e 's/\//\\/g' -e 's/^./\0:/')
               CHECKSUM_PATH=$(echo "$CHECKSUM_PATH" | sed -e 's/^\///' -e 's/\//\\/g' -e 's/^./\0:/')
@@ -323,6 +306,7 @@ jobs:
 
           echo "ASSET_PATH=$ASSET_PATH" >> $GITHUB_ENV
           echo "CHECKSUM_PATH=$CHECKSUM_PATH" >> $GITHUB_ENV
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
