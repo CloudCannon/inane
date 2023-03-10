@@ -7,17 +7,14 @@
     "type": "git",
     "url": "https://github.com/CloudCannon/inane"
   },
-  "scripts": {
-    "postinstall": "node ./lib/postinstall.js"
-  },
   "author": "CloudCannon",
   "license": "MIT",
-  "dependencies": {
-    "https-proxy-agent": "^5.0.0",
-    "proxy-from-env": "^1.1.0"
-  },
-  "overrides": {
-    "agent-base": "^6.0.2"
+  "optionalDependencies": {
+    "inane-linux-x64": "1.1.2",
+    "inane-linux-arm64": "1.1.2",
+    "inane-darwin-x64": "1.1.2",
+    "inane-darwin-arm64": "1.1.2",
+    "inane-windows-x64": "1.1.2"
   },
   "keywords": [
     "useless"
