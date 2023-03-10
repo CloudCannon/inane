@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-const path = require('path');
-const fs = require('fs');
+const os = require('os');
 const { spawnSync } = require('child_process');
 
 const execname = 'inane';
