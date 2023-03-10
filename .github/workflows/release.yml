@@ -79,6 +79,10 @@ jobs:
       - name: Get Tag
         run: echo GIT_TAG="$(node ./.backstage/get_tag.cjs)" >> $GITHUB_ENV
 
+      - name: Version optional dependencies
+        run: |
+          node ./.backstage/version_main_package.cjs
+
       - name: Prepare package
         working-directory: ./wrappers/node
         run: |
