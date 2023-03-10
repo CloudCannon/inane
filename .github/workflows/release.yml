@@ -130,7 +130,6 @@ jobs:
       - name: Get Tag
         run: echo GIT_TAG="$(node ./.backstage/get_tag.cjs)" >> $GITHUB_ENV
 
-
       - name: Create Package
         run: |
           mkdir -p ${{ matrix.package }}/bin/
@@ -139,16 +138,18 @@ jobs:
           cp ../wrappers/node/.npmrc .
 
       - name: Extract Binary
+        working-directory: build-artifacts
         run: |
-          cd build-artifacts
           tar xzf inane-v$GIT_VERSION-${{ matrix.target }}.tar.gz
           rm *.tar.gz
           mv * ../${{ matrix.package }}/bin/
 
       - name: Prepare package
+        working-directory: ${{ matrix.package }}
         run: |
           npm version $GIT_VERSION
       - name: Publish
+        working-directory: ${{ matrix.package }}
         run: npm publish --tag $GIT_TAG --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
