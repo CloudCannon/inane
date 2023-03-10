@@ -66,9 +66,6 @@ jobs:
     name: Publish NPM package
     runs-on: ubuntu-20.04
     needs: publish-binary-npm-packages
-    defaults:
-      run:
-        working-directory: ./wrappers/node
     steps:
       - name: Clone
         uses: actions/checkout@v2
@@ -83,9 +80,11 @@ jobs:
         run: echo GIT_TAG="$(node ./.backstage/get_tag.cjs)" >> $GITHUB_ENV
 
       - name: Prepare package
+        working-directory: ./wrappers/node
         run: |
           npm version $GIT_VERSION
       - name: Publish
+        working-directory: ./wrappers/node
         run: npm publish --tag $GIT_TAG
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
