@@ -10,15 +10,9 @@ if (!os || !cpu) {
     process.exit(1);
 }
 
-const version = process.env.GIT_VERSION;
-if (!version) {
-    console.error("Script expected a GIT_VERSION environment variable");
-    process.exit(1);
-}
-
 fs.writeFileSync(path.join(cwd, "package.json"), JSON.stringify({
     name: package_name,
-    version,
+    version: "0.0.0",
     description: `The platform-specific binary for inane on ${os}/${cpu}`,
     license: "MIT",
     repository: {
