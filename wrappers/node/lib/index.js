@@ -6,14 +6,14 @@ const execname = 'inane';
 
 function resolveBinaryPath() {
     const cpu = process.env.npm_config_arch || os.arch();
-    const os = process.platform === 'win32' ? 'windows' : process.platform;
+    const platform = process.platform === 'win32' ? 'windows' : process.platform;
     
-    const executable = os === 'windows' ? `${execname}.exe` : execname;
+    const executable = platform === 'windows' ? `${execname}.exe` : execname;
     
     try {
-        return require.resolve(`${execname}-${os}-${cpu}/bin/${executable}`);
+        return require.resolve(`${execname}-${platform}-${cpu}/bin/${executable}`);
     } catch (e) {
-        console.error(`Failed to install ${execname}. Most likely the platform ${os}-${cpu} is not yet a supported architecture.`);
+        console.error(`Failed to install ${execname}. Most likely the platform ${platform}-${cpu} is not yet a supported architecture.`);
         console.error(`Please open an issue at https://github.com/CloudCannon/${execname} and paste this error message in full.`);
         console.error(`If you believe this package should be compatible with your system,`)
         console.error(`you can try downloading a release binary directly from https://github.com/CloudCannon/${execname}/releases`);
