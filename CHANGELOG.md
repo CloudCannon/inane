@@ -9,6 +9,8 @@
 
 ## Unreleased
 
+## v1.0.15 (March 10, 2023)
+
 ## v1.0.13 (March 10, 2023)
 
 ## v1.0.12 (December 2, 2022)
