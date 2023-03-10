@@ -10,11 +10,11 @@
   "author": "CloudCannon",
   "license": "MIT",
   "optionalDependencies": {
-    "inane-linux-x64": "1.1.2",
-    "inane-linux-arm64": "1.1.2",
-    "inane-darwin-x64": "1.1.2",
-    "inane-darwin-arm64": "1.1.2",
-    "inane-windows-x64": "1.1.2"
+    "inane-linux-x64": "0.0.0",
+    "inane-linux-arm64": "0.0.0",
+    "inane-darwin-x64": "0.0.0",
+    "inane-darwin-arm64": "0.0.0",
+    "inane-windows-x64": "0.0.0"
   },
   "keywords": [
     "useless"
